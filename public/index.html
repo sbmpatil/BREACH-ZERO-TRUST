@@ -1,8 +1,38 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BREACH: Hunt the Intruder</title><link rel="stylesheet" href="style.css"></head><body>
-<header><b>BREACH<span>:</span></b> HUNT THE INTRUDER <small id="roomTag"></small></header><main>
-<section id="home" class="screen active"><div class="hero"><p class="eyebrow">ASYMMETRIC CYBER DEDUCTION</p><h1>Find the signal.<br><em>Hunt the intruder.</em></h1><p>One hidden attacker. A SOC drowning in noisy alerts. Twelve rounds before the Crown Jewels disappear.</p><input id="nick" maxlength="24" placeholder="CALLSIGN / NICKNAME"><div class="buttons"><button id="create">CREATE ROOM</button><button id="joinOpen" class="ghost">JOIN ROOM</button><button id="howOpen" class="ghost">HOW TO PLAY</button></div><div id="joinBox" class="hidden"><input id="joinCode" maxlength="4" placeholder="4-LETTER CODE"><button id="join">CONNECT</button></div></div></section>
-<section id="how" class="screen"><div class="panel rules"><button class="back">← BACK</button><h2>HOW TO PLAY</h2><p><b>Intruder:</b> secretly enter through VPN, Web, or Email. Each 45-second turn, Stealth Move one hop (only the zone leaks), Exploit Chain up to two hops (exact destination leaks; 3 uses), Plant Decoy (fake HIGH alert within 3 hops; 2 uses), or Lie Low (no alert; never twice consecutively).</p><p><b>SOC:</b> after the attacker's move, a 60-second SIEM feed mixes the real signal with 2–4 benign alerts. Investigate a node to learn whether and when it was visited; Isolate it to cut it off forever (3 total, instant capture if occupied); or deploy up to two active honeypots.</p><p><b>Win:</b> the attacker reaches CROWN JEWELS and survives the following SOC phase. The SOC wins by isolating the attacker, trapping them, or holding for 12 rounds.</p><div class="example"><b>EXAMPLE TURN</b><br>Intruder: WS-02 → Mail Server by Stealth Move.<br>Feed: <i>[LOW] Suspicious lateral activity — Zone: Server Zone</i> + noise.<br>SOC deduces likely routes, investigates Mail Server, and adds that visit to the trail.</div></div></section>
-<section id="lobby" class="screen"><div class="panel"><h2>ROOM <span id="code"></span></h2><p>Share this code. 2–5 players.</p><div id="players"></div><div id="hostControls"><label>Intruder assignment <select id="intruderPick"><option value="">Random</option></select></label><button id="start">START BREACH</button></div><p id="lobbyStatus"></p></div></section>
-<section id="game" class="screen"><div class="hud"><span id="role"></span><span id="round"></span><span id="timerHint"></span></div><div class="layout"><div class="mapWrap"><svg id="map" viewBox="0 0 104 104"></svg><div id="actions" class="actions"></div></div><aside><div id="stats" class="stats"></div><div class="console"><div class="consoleTitle">SIEM // LIVE ALERT STREAM</div><div id="alerts"></div></div><div id="chatBox" class="chat"><div id="messages"></div><div><input id="chatInput" maxlength="160" placeholder="SOC private channel"><button id="sendChat">SEND</button></div></div></aside></div></section>
-<section id="over" class="screen"><div class="panel"><p class="eyebrow">INCIDENT CLOSED</p><h1 id="winner"></h1><p id="reason"></p><svg id="replay" viewBox="0 0 104 104"></svg><div id="reveal"></div><button id="again">PLAY AGAIN — SWAP ROLES</button></div></section>
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BREACH: ZERO TRUST</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<div class="scanlines"></div>
+<header class="topbar">
+  <div class="brand"><b>BREACH:<span> ZERO TRUST</span></b><small>MULTIPLAYER CYBER STRATEGY</small></div>
+  <div class="topMetrics"><div class="metric"><small>NETWORK</small><strong>LIVE</strong></div><div class="metric roomMetric"><small>ROOM</small><strong id="roomTag">----</strong></div></div>
+</header>
+<main>
+<section id="home" class="screen active"><div class="heroShell">
+ <div class="heroCopy"><p class="eyebrow">◈ ZERO TRUST PROTOCOL // ACTIVE</p><h1>TRUST<br><em>NOTHING.</em></h1><p class="lead">One invisible attacker. One living corporate network. A SOC team forced to separate real signals from deception before the Crown Jewels disappear.</p>
+ <div class="heroFeatures"><span>ASYMMETRIC</span><span>REAL-TIME</span><span>2–5 PLAYERS</span></div>
+ <input id="nick" maxlength="24" placeholder="ENTER CALLSIGN"><div class="buttons"><button id="create">CREATE OPERATION</button><button id="joinOpen" class="ghost">JOIN ROOM</button><button id="howOpen" class="ghost">HOW TO PLAY</button></div>
+ <div id="joinBox" class="hidden joinBox"><input id="joinCode" maxlength="4" placeholder="ROOM CODE"><button id="join">CONNECT</button></div></div>
+ <div class="heroVisual"><div class="coreOrb"><i></i><b>ZERO<br>TRUST</b></div><div class="orbit o1"></div><div class="orbit o2"></div><div class="heroNode n1">EDGE</div><div class="heroNode n2">USERS</div><div class="heroNode n3">CORE</div><div class="heroNode n4">VAULT</div></div>
+</div></section>
+
+<section id="how" class="screen"><div class="panel rules"><button class="back">← BACK</button><p class="eyebrow">FIELD MANUAL</p><h2>HOW TO PLAY</h2><div class="ruleGrid">
+<div><h3>🔴 INTRUDER</h3><p>Enter through VPN, Web, or Email. Use <b>Stealth Move</b>, <b>Exploit Chain</b>, <b>Plant Decoy</b>, or <b>Lie Low</b>. Reach the Vault and survive the SOC response.</p></div>
+<div><h3>🔵 SOC TEAM</h3><p>Read the noisy SIEM feed. <b>Investigate</b> suspicious nodes, <b>Isolate</b> systems, and deploy <b>Honeypots</b>. The real signal is mixed with benign noise.</p></div>
+<div><h3>⚡ THE TRADEOFF</h3><p>Fast attacks reveal more. Quiet attacks burn precious rounds. Defenders must decide when suspicion is strong enough to act.</p></div>
+<div><h3>🏆 VICTORY</h3><p>Intruder: exfiltrate the Crown Jewels. SOC: capture, trap, or hold the network for 12 rounds.</p></div></div>
+<div class="example"><b>EXAMPLE INCIDENT</b><br>Intruder: WS-02 → Mail Server by Stealth Move.<br>SIEM: <i>[LOW] Suspicious lateral activity — Server Zone</i> + noise.<br>SOC must decide whether that signal is worth chasing.</div></div></section>
+
+<section id="lobby" class="screen"><div class="lobbyStage"><div class="panel lobbyPanel"><p class="eyebrow">SECURE OPERATIONS LOBBY</p><h2>ROOM <span id="code"></span></h2><p>Share the four-letter code. Mission requires 2–5 operators.</p><div id="players"></div><div id="hostControls"><label>INTRUDER ASSIGNMENT <select id="intruderPick"><option value="">Random</option></select></label><button id="start">INITIATE BREACH</button></div><p id="lobbyStatus"></p></div></div></section>
+
+<section id="game" class="screen gameScreen">
+ <div class="hud"><div><small>YOUR ROLE</small><strong id="role"></strong></div><div class="phaseBox"><small>OPERATION STATUS</small><strong id="round"></strong></div><div><small>SERVER CLOCK</small><strong id="timerHint"></strong></div></div>
+ <div class="commandGrid">
+  <aside class="leftRail"><div class="card"><div class="cardTitle">MISSION PROFILE</div><div id="roleCard" class="roleCard"></div></div><div class="card"><div class="cardTitle">TACTICAL STATUS</div><div id="stats" class="stats"></div></div><div class="card intelCard"><div class="cardTitle">NETWORK LAYERS</div><div class="layers"><span>◉ INTERNET EDGE</span><span>▣ USER ZONE</span><span>▤ SERVER GRID</span><span>◆ CORE SYSTEMS</span><span class="gold">⬢ CROWN JEWELS</span></div></div></aside>
+  <section class="battlefield"><div class="mapHeader"><div><small>DIGITAL TWIN</small><b>CORPORATE NETWORK</b></div><div id="pressure" class="pressure"><small>THREAT PRESSURE</small><div class="bar"><i></i></div><b>0%</b></div></div><div class="mapWrap"><div class="gridFloor"></div><svg id="map" viewBox="0 0 104 104"></svg></div><div id="actions" class="actions"></div></section>
+  <aside class="rightRail"><div class="card console"><div class="cardTitle">LIVE SIEM // ALERT STREAM <i class="liveDot"></i></div><div id="alerts"></div></div><div id="chatBox" class="card chat"><div class="cardTitle">SOC // PRIVATE CHANNEL</div><div id="messages"></div><div class="chatSend"><input id="chatInput" maxlength="160" placeholder="Type secure message…"><button id="sendChat">SEND</button></div></div></aside>
+ </div>
+</section>
+
+<section id="over" class="screen"><div class="panel overPanel"><p class="eyebrow">FORENSIC RECONSTRUCTION COMPLETE</p><h1 id="winner"></h1><p id="reason"></p><div class="replayFrame"><svg id="replay" viewBox="0 0 104 104"></svg></div><div id="reveal"></div><button id="again">PLAY AGAIN — SWAP ROLES</button></div></section>
 </main><div id="toast"></div><script src="/socket.io/socket.io.js"></script><script src="client.js"></script></body></html>
